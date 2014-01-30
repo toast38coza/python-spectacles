@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Spectacles by toast38coza</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Spectacles</h1>
+        <p>A utility tool for writing BDD specs in Django </p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/toast38coza/django-spectacles" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/toast38coza/django-spectacles/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/toast38coza/django-spectacles/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<pre><code>...
+</code></pre>
+
+<h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+
+<h3>
+<a name="1-add-to-installed-apps" class="anchor" href="#1-add-to-installed-apps"><span class="octicon octicon-link"></span></a>1. Add to installed apps</h3>
+
+<p><strong>In settings.py:</strong></p>
+
+<pre><code>INSTALLED_APPS = (
+    ...
+    spectacles,
+    ...
+)
+</code></pre>
+
+<p>You also need to set a value for <code>TEST_DOMAIN</code> in <code>settings.py</code>. </p>
+
+<pre><code># this is the default used by Django's test server
+TEST_DOMAIN = 'http://localhost:8081'
+</code></pre>
+
+<h3>
+<a name="2-write-your-first-functional-test" class="anchor" href="#2-write-your-first-functional-test"><span class="octicon octicon-link"></span></a>2. Write your first functional test:</h3>
+
+<p>Create a file called specs.py 
+(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests).</p>
+
+<h4>
+<a name="first-write-what-you-want-to-do-in-plain-text" class="anchor" href="#first-write-what-you-want-to-do-in-plain-text"><span class="octicon octicon-link"></span></a>First: write what you want to do in plain text:</h4>
+
+<pre><code>from spectacles.functionaltest import FunctionalTestCase
+from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
+from splinter import Browser 
+
+
+class HomePageTestCase(FunctionalTestCase):
+
+    def setUp(self):
+    self.b = Browser()
+
+    def test_homepage_loads(self):
+        """
+        * Go to the homepage
+        * It has a h1 title        
+        """
+
+    def tearDown(self):
+    self.b.quit()
+</code></pre>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>We extend <code>FunctionalTestCase</code>, not <code>TestCase</code>
+</li>
+<li>
+<code>get_absolute_url</code> handles getting urls using Django's LiveTestSever</li>
+</ul><h4>
+<a name="finally-write-the-actual-test-code" class="anchor" href="#finally-write-the-actual-test-code"><span class="octicon octicon-link"></span></a>Finally: write the actual test code:</h4>
+
+<p><strong>Add the following to <code>test_homepage_loads()</code>:</strong></p>
+
+<pre><code>self.scenario("Testing loading the homepage")
+self.step("Go to homepage")
+self.b.visit(u("/"))
+
+expect = [
+    ("h1", "There is a h1 title"),            
+]
+
+self.expect(expect)
+</code></pre>
+
+<h3>
+<a name="3-run-your-test" class="anchor" href="#3-run-your-test"><span class="octicon octicon-link"></span></a>3. Run your test</h3>
+
+<p>You can now run your spec tests using:</p>
+
+<pre><code>python manage.py test -p spec*.py
+</code></pre>
+
+<p>Assuming we haven't got an h1 on out page, we should get something like:</p>
+
+<h2>
+<a name="testing-loading-the-homepage" class="anchor" href="#testing-loading-the-homepage"><span class="octicon octicon-link"></span></a>Testing loading the homepage</h2>
+
+<ul>
+<li>Go to homepage</li>
+<li>[x] Failed: There is a h1 title</li>
+<li>-&gt; False is not True</li>
+<li>
+<strong>TODO:</strong> We need an element with selector: h1</li>
+</ul><p>A successful response should look something like:</p>
+
+<h2>
+<a name="testing-loading-the-homepage-1" class="anchor" href="#testing-loading-the-homepage-1"><span class="octicon octicon-link"></span></a>Testing loading the homepage</h2>
+
+<ul>
+<li>Go to homepage</li>
+<li>(: Passed: There is a h1 title
+.</li>
+</ul><hr><p>Ran 1 test in 19.513s</p>
+
+<p>OK</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/toast38coza">toast38coza</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
