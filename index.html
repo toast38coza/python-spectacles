@@ -40,12 +40,24 @@
       </nav>
       <section>
         <h1>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+<a name="current-version" class="anchor" href="#current-version"><span class="octicon octicon-link"></span></a>Current Version:</h1>
 
-<pre><code>...
-</code></pre>
+<p>0.0.2</p>
 
 <h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ul>
+<li>Django &gt;= 1.6</li>
+</ul><h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p><strong>Install via pip:</strong></p>
+
+<pre><code>pip install -U django-spectacles
+</code></pre>
+
+<hr><h1>
 <a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
 
 <h3>
@@ -70,10 +82,20 @@ TEST_DOMAIN = 'http://localhost:8081'
 <a name="2-write-your-first-functional-test" class="anchor" href="#2-write-your-first-functional-test"><span class="octicon octicon-link"></span></a>2. Write your first functional test:</h3>
 
 <p>Create a file called specs.py 
-(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests).</p>
+(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests). Let's test the Django admin login page. </p>
+
+<p>In the folder </p>
 
 <h4>
-<a name="first-write-what-you-want-to-do-in-plain-text" class="anchor" href="#first-write-what-you-want-to-do-in-plain-text"><span class="octicon octicon-link"></span></a>First: write what you want to do in plain text:</h4>
+<a name="first-write-what-we-expect-the-page-to-do-in-plain-text" class="anchor" href="#first-write-what-we-expect-the-page-to-do-in-plain-text"><span class="octicon octicon-link"></span></a>First: write what we expect the page to do in plain text:</h4>
+
+<pre><code>* Go to /admin/
+* It has an h1 which says: "Django Administration"
+* There is a textbox for username
+* There is a textbox for password     
+</code></pre>
+
+<p>Now let's wrap that into a test: </p>
 
 <pre><code>from spectacles.functionaltest import FunctionalTestCase
 from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
@@ -83,16 +105,19 @@ from splinter import Browser
 class HomePageTestCase(FunctionalTestCase):
 
     def setUp(self):
-    self.b = Browser()
+        self.b = Browser()
 
-    def test_homepage_loads(self):
+    def test_admin_page(self):
         """
-        * Go to the homepage
-        * It has a h1 title        
+        * Go to /admin/
+        * It has an h1 which says: "Django Administration"
+        * There is a textbox for username
+        * There is a textbox for password        
         """
+        self.assertTrue(False, "Not yet implemented")
 
     def tearDown(self):
-    self.b.quit()
+        self.b.quit()
 </code></pre>
 
 <p><strong>Notes:</strong></p>
@@ -101,22 +126,44 @@ class HomePageTestCase(FunctionalTestCase):
 <li>We extend <code>FunctionalTestCase</code>, not <code>TestCase</code>
 </li>
 <li>
-<code>get_absolute_url</code> handles getting urls using Django's LiveTestSever</li>
+<code>get_absolute_url</code> handles getting urls using the value you have set for <code>TEST_DOMAIN</code>
+</li>
 </ul><h4>
 <a name="finally-write-the-actual-test-code" class="anchor" href="#finally-write-the-actual-test-code"><span class="octicon octicon-link"></span></a>Finally: write the actual test code:</h4>
 
-<p><strong>Add the following to <code>test_homepage_loads()</code>:</strong></p>
+<p><strong>Update <code>test_admin_page()</code> so it looks like this:</strong></p>
 
-<pre><code>self.scenario("Testing loading the homepage")
-self.step("Go to homepage")
-self.b.visit(u("/"))
+<pre><code>def test_admin_page(self):
+    """
+    * Go to /admin/
+    * It has an h1 which says: "Django Administration"
+    * There is a textbox for username
+    * There is a textbox for password        
+    """
 
-expect = [
-    ("h1", "There is a h1 title"),            
-]
 
-self.expect(expect)
+    self.scenario("Testing django-admin login page")
+    self.step("Go to admin page")
+    self.b.visit(u("/admin/"))
+
+    expect = [
+        ("h1", "Page heading"),            
+        ("#id_username", "Username text box."),            
+        ("#id_password", "Password text box."),            
+    ]
+
+    self.expect(expect)
 </code></pre>
+
+<p><strong>What this does:</strong></p>
+
+<ul>
+<li>Goes to /admin/</li>
+<li>Tests for an h1 and fields with the ids: id_username and id_password</li>
+</ul><p><strong>Notes:</strong></p>
+
+<p>We are using <code>splinter</code> to wrap our selenium functionality. To see what you can do with splinter's web-drivers check out the docs at: 
+<a href="http://splinter.cobrateam.info/docs/">http://splinter.cobrateam.info/docs/</a></p>
 
 <h3>
 <a name="3-run-your-test" class="anchor" href="#3-run-your-test"><span class="octicon octicon-link"></span></a>3. Run your test</h3>
@@ -126,29 +173,9 @@ self.expect(expect)
 <pre><code>python manage.py test -p spec*.py
 </code></pre>
 
-<p>Assuming we haven't got an h1 on out page, we should get something like:</p>
+<p>You should see feedback something like below: </p>
 
-<h2>
-<a name="testing-loading-the-homepage" class="anchor" href="#testing-loading-the-homepage"><span class="octicon octicon-link"></span></a>Testing loading the homepage</h2>
-
-<ul>
-<li>Go to homepage</li>
-<li>[x] Failed: There is a h1 title</li>
-<li>-&gt; False is not True</li>
-<li>
-<strong>TODO:</strong> We need an element with selector: h1</li>
-</ul><p>A successful response should look something like:</p>
-
-<h2>
-<a name="testing-loading-the-homepage-1" class="anchor" href="#testing-loading-the-homepage-1"><span class="octicon octicon-link"></span></a>Testing loading the homepage</h2>
-
-<ul>
-<li>Go to homepage</li>
-<li>(: Passed: There is a h1 title
-.</li>
-</ul><hr><p>Ran 1 test in 19.513s</p>
-
-<p>OK</p>
+<p><img src="http://dropbox.christo.s3.amazonaws.com/spectacles-result.png"></p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/toast38coza">toast38coza</a></p>
