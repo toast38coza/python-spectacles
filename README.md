@@ -1,10 +1,14 @@
-# Current Version: 
+**Current Version:** Alpha: 0.0.2
 
-0.0.2
-
-# Requirements 
+**Requirements**
 
 * Django >= 1.6
+
+**Links:**
+
+ * [Pivotal Tracker Project](https://www.pivotaltracker.com/s/projects/1027510)
+ * [Home Page (Github Page)](http://toast38coza.github.io/django-spectacles/)
+
 
 # Installation
 
