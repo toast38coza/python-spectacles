@@ -16,5 +16,4 @@ setup(
     description='Tools for BDD built on top of django\'s ' + \
                 ' unit testing framework',
     long_description=open('README.md').read(),
-    zip_safe=False,
 )
