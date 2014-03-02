@@ -1,10 +1,18 @@
+# Current Version: 
+
+0.0.2
+
 # Requirements 
 
 * Django >= 1.6
 
 # Installation
 
-    ...
+**Install via pip:**
+
+    pip install -U django-spectacles
+
+---
 
 # Getting Started 
 
@@ -29,9 +37,19 @@ You also need to set a value for `TEST_DOMAIN` in `settings.py`.
 ### 2. Write your first functional test: 
 
 Create a file called specs.py 
-(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests).
+(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests). Let's test the Django admin login page. 
 
-#### First: write what you want to do in plain text:
+In the folder 
+
+#### First: write what we expect the page to do in plain text:
+
+    * Go to /admin/
+	* It has an h1 which says: "Django Administration"
+	* There is a textbox for username
+	* There is a textbox for password     
+
+Now let's wrap that into a test: 
+
 
 	from spectacles.functionaltest import FunctionalTestCase
 	from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
@@ -41,35 +59,60 @@ Create a file called specs.py
 	class HomePageTestCase(FunctionalTestCase):
 
    		def setUp(self):
-       	self.b = Browser()
+       	    self.b = Browser()
 
-	    def test_homepage_loads(self):
+	    def test_admin_page(self):
 	        """
-			* Go to the homepage
-        	* It has a h1 title        
+			* Go to /admin/
+        	* It has an h1 which says: "Django Administration"
+        	* There is a textbox for username
+        	* There is a textbox for password        
 	        """
+	        self.assertTrue(False, "Not yet implemented")
 	        
 		def tearDown(self):
-       	self.b.quit()
+       	    self.b.quit()
 
 **Notes:**
 
 * We extend `FunctionalTestCase`, not `TestCase`
-* `get_absolute_url` handles getting urls using Django's LiveTestSever
+* `get_absolute_url` handles getting urls using the value you have set for `TEST_DOMAIN`
 
 #### Finally: write the actual test code:
 
-**Add the following to `test_homepage_loads()`:**
+**Update `test_admin_page()` so it looks like this:**
 
-    self.scenario("Testing loading the homepage")
-    self.step("Go to homepage")
-    self.b.visit(u("/"))
 
-    expect = [
-        ("h1", "There is a h1 title"),            
-    ]
+    def test_admin_page(self):
+	    """
+		* Go to /admin/
+        * It has an h1 which says: "Django Administration"
+        * There is a textbox for username
+        * There is a textbox for password        
+	    """
+	 
 
-    self.expect(expect)
+        self.scenario("Testing django-admin login page")
+        self.step("Go to admin page")
+        self.b.visit(u("/admin/"))
+
+        expect = [
+            ("h1", "Page heading"),            
+            ("#id_username", "Username text box."),            
+            ("#id_password", "Password text box."),            
+        ]
+
+        self.expect(expect)
+
+**What this does:**
+
+* Goes to /admin/
+* Tests for an h1 and fields with the ids: id_username and id_password
+
+**Notes:**
+
+We are using `splinter` to wrap our selenium functionality. To see what you can do with splinter's web-drivers check out the docs at: 
+http://splinter.cobrateam.info/docs/
 
 
 ### 3. Run your test
@@ -78,28 +121,6 @@ You can now run your spec tests using:
 
     python manage.py test -p spec*.py
     
-Assuming we haven't got an h1 on out page, we should get something like:
+You should see feedback something like below: 
 
-##Testing loading the homepage
-
-* Go to homepage
-* [x] Failed: There is a h1 title
-* -> False is not True
-* **TODO:** We need an element with selector: h1
-
-A successful response should look something like:
-
-##Testing loading the homepage
-
-* Go to homepage
-* (: Passed: There is a h1 title
-.
-
-----------------------------------------------------------------------
-Ran 1 test in 19.513s
-
-OK
-
-
-
-
+<img src="http://dropbox.christo.s3.amazonaws.com/spectacles-result.png" />
