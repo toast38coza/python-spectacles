@@ -1,4 +1,4 @@
-**Current Version:** Alpha: 0.0.2
+<img src="https://badge.fury.io/py/django-spectacles.png" />
 
 **Requirements**
 
