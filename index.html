@@ -1,67 +1,54 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Spectacles by toast38coza</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Spectacles</h1>
+      <h2 class="project-tagline">A utility tool for writing BDD specs in Django </h2>
+      <a href="https://github.com/toast38coza/django-spectacles" class="btn">View on GitHub</a>
+      <a href="https://github.com/toast38coza/django-spectacles/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/toast38coza/django-spectacles/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-      <header>
-        <h1>Spectacles</h1>
-        <p>A utility tool for writing BDD specs in Django </p>
-      </header>
+    <section class="main-content">
+      <p><img src="https://badge.fury.io/py/django-spectacles.png"></p>
 
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/toast38coza/django-spectacles" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/toast38coza/django-spectacles/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/toast38coza/django-spectacles/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
-        <h1>
-<a name="current-version" class="anchor" href="#current-version"><span class="octicon octicon-link"></span></a>Current Version:</h1>
-
-<p>0.0.2</p>
-
-<h1>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+<p><strong>Requirements</strong></p>
 
 <ul>
 <li>Django &gt;= 1.6</li>
-</ul><h1>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+</ul>
+
+<p><strong>Links:</strong></p>
+
+<ul>
+<li><a href="https://www.pivotaltracker.com/s/projects/1027510">Pivotal Tracker Project</a></li>
+<li><a href="http://toast38coza.github.io/django-spectacles/">Home Page (Github Page)</a></li>
+</ul>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
 
 <p><strong>Install via pip:</strong></p>
 
 <pre><code>pip install -U django-spectacles
 </code></pre>
 
-<hr><h1>
-<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h1>
+<hr>
+
+<h1>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h1>
 
 <h3>
-<a name="1-add-to-installed-apps" class="anchor" href="#1-add-to-installed-apps"><span class="octicon octicon-link"></span></a>1. Add to installed apps</h3>
+<a id="1-add-to-installed-apps" class="anchor" href="#1-add-to-installed-apps" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Add to installed apps</h3>
 
 <p><strong>In settings.py:</strong></p>
 
@@ -79,7 +66,7 @@ TEST_DOMAIN = 'http://localhost:8081'
 </code></pre>
 
 <h3>
-<a name="2-write-your-first-functional-test" class="anchor" href="#2-write-your-first-functional-test"><span class="octicon octicon-link"></span></a>2. Write your first functional test:</h3>
+<a id="2-write-your-first-functional-test" class="anchor" href="#2-write-your-first-functional-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Write your first functional test:</h3>
 
 <p>Create a file called specs.py 
 (As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests). Let's test the Django admin login page. </p>
@@ -87,7 +74,7 @@ TEST_DOMAIN = 'http://localhost:8081'
 <p>In the folder </p>
 
 <h4>
-<a name="first-write-what-we-expect-the-page-to-do-in-plain-text" class="anchor" href="#first-write-what-we-expect-the-page-to-do-in-plain-text"><span class="octicon octicon-link"></span></a>First: write what we expect the page to do in plain text:</h4>
+<a id="first-write-what-we-expect-the-page-to-do-in-plain-text" class="anchor" href="#first-write-what-we-expect-the-page-to-do-in-plain-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>First: write what we expect the page to do in plain text:</h4>
 
 <pre><code>* Go to /admin/
 * It has an h1 which says: "Django Administration"
@@ -128,8 +115,10 @@ class HomePageTestCase(FunctionalTestCase):
 <li>
 <code>get_absolute_url</code> handles getting urls using the value you have set for <code>TEST_DOMAIN</code>
 </li>
-</ul><h4>
-<a name="finally-write-the-actual-test-code" class="anchor" href="#finally-write-the-actual-test-code"><span class="octicon octicon-link"></span></a>Finally: write the actual test code:</h4>
+</ul>
+
+<h4>
+<a id="finally-write-the-actual-test-code" class="anchor" href="#finally-write-the-actual-test-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Finally: write the actual test code:</h4>
 
 <p><strong>Update <code>test_admin_page()</code> so it looks like this:</strong></p>
 
@@ -160,13 +149,15 @@ class HomePageTestCase(FunctionalTestCase):
 <ul>
 <li>Goes to /admin/</li>
 <li>Tests for an h1 and fields with the ids: id_username and id_password</li>
-</ul><p><strong>Notes:</strong></p>
+</ul>
+
+<p><strong>Notes:</strong></p>
 
 <p>We are using <code>splinter</code> to wrap our selenium functionality. To see what you can do with splinter's web-drivers check out the docs at: 
 <a href="http://splinter.cobrateam.info/docs/">http://splinter.cobrateam.info/docs/</a></p>
 
 <h3>
-<a name="3-run-your-test" class="anchor" href="#3-run-your-test"><span class="octicon octicon-link"></span></a>3. Run your test</h3>
+<a id="3-run-your-test" class="anchor" href="#3-run-your-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Run your test</h3>
 
 <p>You can now run your spec tests using:</p>
 
@@ -176,13 +167,16 @@ class HomePageTestCase(FunctionalTestCase):
 <p>You should see feedback something like below: </p>
 
 <p><img src="http://dropbox.christo.s3.amazonaws.com/spectacles-result.png"></p>
-      </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/toast38coza">toast38coza</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/toast38coza/django-spectacles">Spectacles</a> is maintained by <a href="https://github.com/toast38coza">toast38coza</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
+    </section>
+
+  
   </body>
 </html>
+
