@@ -8,5 +8,6 @@ spectacles/models.py
 spectacles/pagehelper.py
 spectacles/requirements.txt
 spectacles/views.py
+spectacles/yamldriver.py
 spectacles/tests/__init__.py
 spectacles/tests/onboarding.py

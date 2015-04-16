@@ -1,3 +1,4 @@
 splinter
 selenium
 requests
+pyyaml

@@ -1,6 +1,5 @@
 from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
-import time
-import yaml
+import time, glob, yaml
 
 class YAMLDriver:
 
@@ -9,7 +8,12 @@ class YAMLDriver:
         self.testcase = testcase
         self.b = browser
 
-    def run(self, path_to_yaml):
+    def run_many(self, glob_pattern):
+        paths = glob.glob(glob_pattern)
+        for path in paths:
+            self.run(path)
+
+    def run(self, path_to_yaml):        
         yml = yaml.load(open(path_to_yaml).read())
 
         scenario = yml[0]
@@ -34,6 +38,27 @@ class YAMLDriver:
         self.testcase.step("Go to url: {0}" . format(url))
         self.b.visit(u(url))
 
+
+    """
+    YAML: 
+
+    expect_values:
+      - #element to be: "value"
+    """
+    def expect_values(self, elements):
+        
+        print "TBD"
+        """
+        for element in elements:
+            k,v = element.items()[0]   
+            exists = self.b.is_element_present_by_css(k)
+            
+            if exists:    
+                el = self.b.find_by_css(k).first
+                self.testcase.assertEqual(el.value, v)
+        """
+
+
     def expect_elements(self, elements):
 
         for element in elements:
@@ -41,8 +66,10 @@ class YAMLDriver:
             self.expect_element(k,v)
             
     def expect_element(self,k,v):
-        exists = self.b.is_element_present_by_css(k)
+
         message = "Check that {0} exists" .format (v)
+        exists = self.b.is_element_present_by_css(k)
+        
         try:
             self.testcase.assertTrue ( exists, message )
             return True

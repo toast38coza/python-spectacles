@@ -83,9 +83,9 @@ class FunctionalTestCase(getattr(test, testcase_to_extend)):
         try:
             super(FunctionalTestCase, self).assertTrue(assertion)
 
-            self.record_pass( "(: Passed: {0}" . format (description)) 
+            self.record_pass( description) 
         except:
-            self.record_fail( "[x] Failed: {0}" . format (description) )
+            self.record_fail( description)
 
             #self.print_fail( "-> {0} is not True" . format (assertion) )         
             if instruction:
@@ -98,9 +98,9 @@ class FunctionalTestCase(getattr(test, testcase_to_extend)):
         # same .. or something?
         try:
             super(FunctionalTestCase, self).assertEqual(item1, item2)
-            self.record_pass( "(: Passed: {0}" . format (description) )
+            self.record_pass( description ) 
         except:
-            self.record_fail( "[x] Failed: {0}" . format (description) )    
+            self.record_fail( description)
             
             #self.print_fail( "-> {0} != {1}" . format (item1, item2) )         
             
@@ -130,11 +130,11 @@ class FunctionalTestCase(getattr(test, testcase_to_extend)):
         print "{0}##{1}{2}\n" . format (bcolors.OKGREEN, message, bcolors.ENDC)
         scenario_started.send(sender=self, testcase=self.__class__.__name__, test_name=self._testMethodName)
         
-    def print_pass(self, message): 
-        print "{0}* {1}{2}" . format (bcolors.OKGREEN, message, bcolors.ENDC)
+    def print_pass(self, message):         
+        print u"{0}* \u2713 {1}{2}" . format (bcolors.OKGREEN, message, bcolors.ENDC)
 
     def print_fail(self, message): 
-        print "{0}* {1}{2}" . format (bcolors.FAIL, message, bcolors.ENDC)
+        print u"{0}* \u274C {1}{2}" . format (bcolors.FAIL, message, bcolors.ENDC)
         
 
     def print_summary(self):

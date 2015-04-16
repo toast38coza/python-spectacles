@@ -1,0 +1,11 @@
+---
+- scenario: Google
+  steps: 
+  - goto: /
+
+  - expect_elements :
+    - "#lst-ib": "search input"     
+  - fill_fields:
+      - "#lst-ib" : "Tangent Solutions"
+  - wait: 5
+  - wait_for_element : "#ires"

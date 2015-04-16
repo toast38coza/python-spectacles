@@ -1,8 +1,16 @@
+# Django Spectacles
+
+Write **end-to-end** tests in **YAML**, run them with **Python** and output your results in **Markdown**
+
 # Installation
 
-    ...
+    pip install django-spectacles
 
-# Getting Started 
+### Quickstart
+
+We will create a Django project for running our intergration tests. 
+
+	python manage.py startproject e2etests .
 
 ### 1. Add to installed apps
 
@@ -16,86 +24,99 @@
     
 You also need to set a value for `TEST_DOMAIN` in `settings.py`. 
 
-	# this is the default used by Django's test server
-	TEST_DOMAIN = 'http://localhost:8081'
+	TEST_DOMAIN = 'http://google.com'
+
+**Note:** use 'http://localhost:8081' to use Django's default test server
+	
 
 
 
-   
-### 2. Write your first functional test: 
+**Create a test that will run all our yaml test specs:**
 
-Create a file called specs.py 
-(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests).
+from the directory containing `manage.py`: 
 
-#### First: write what you want to do in plain text:
+	touch e2etests/test_e2e.py
+	
+test_e2e.py:
 
-	from spectacles.functionaltest import FunctionalTestCase
-	from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
-	from splinter import Browser 
+```
+from spectacles.functionaltest import FunctionalTestCase
+from spectacles.yamldriver import YAMLDriver
+from splinter import Browser 
 
+class GoogleTestCase(FunctionalTestCase):
 
-	class HomePageTestCase(FunctionalTestCase):
+    def setUp(self):
+    	
+        self.b = Browser()
+        self.yaml_driver = YAMLDriver(self, self.b)
 
-   		def setUp(self):
-       	self.b = Browser()
+    def test_google(self):
+    	self.yaml_driver.run_many("./e2etests/yaml/spec_*.yml")
+        pass
 
-	    def test_homepage_loads(self):
-	        """
-			* Go to the homepage
-        	* It has a h1 title        
-	        """
-	        
-		def tearDown(self):
-       	self.b.quit()
+    def tearDown(self):
+        self.b.quit()
+```
 
-**Notes:**
+**Notes**
 
-* We extend `FunctionalTestCase`, not `TestCase`
-* `get_absolute_url` handles getting urls using Django's LiveTestSever
+* TestCase extends `FunctionalTestCase`
+* We pass a glob path to find our spec yml files
 
-#### Finally: write the actual test code:
+You can now run this with: 
 
-**Add the following to `test_homepage_loads()`:**
+	python manage.py test
+	
 
-    self.scenario("Testing loading the homepage")
-    self.step("Go to homepage")
-    self.b.visit(u("/"))
+##View Results as Markdown
 
-    expect = [
-        ("h1", "There is a h1 title"),            
-    ]
+Spectacles is designed to create output as Markdown. Your test should create the following output:
 
-    self.expect(expect)
+```
+##I'm feeling lucky
 
+* Go to url: /
+* ✓ Check that search input exists
+* ✓ Check that [name='btnI'] exists
+* Click button: 
+* waiting for #archive to load
+* ✓ Element has loaded: #archive
+ 
+##Google
 
-### 3. Run your test
+* Go to url: /
+* ✓ Check that search input exists
+* enter Tangent Solutions into field:#lst-ib
+* waiting for #ires to load
+* ✓ Element has loaded: #ires
+```
 
-You can now run your spec tests using:
+When parsed it would look like this:
 
-    python manage.py test -p spec*.py
-    
-Assuming we haven't got an h1 on out page, we should get something like:
+###I'm feeling lucky
 
-##Testing loading the homepage
+* Go to url: /
+* ✓ Check that search input exists
+* ✓ Check that [name='btnI'] exists
+* Click button: 
+* waiting for #archive to load
+* ✓ Element has loaded: #archive
+ 
+###Google
 
-* Go to homepage
-* [x] Failed: There is a h1 title
-* -> False is not True
-* **TODO:** We need an element with selector: h1
+* Go to url: /
+* ✓ Check that search input exists
+* enter Tangent Solutions into field:#lst-ib
+* waiting for #ires to load
+* ✓ Element has loaded: #ires
 
-A successful response should look something like:
+---
+**TODO:**
 
-##Testing loading the homepage
+Some improvements I would like to ship in the near future:
 
-* Go to homepage
-* (: Passed: There is a h1 title
-.
-
-----------------------------------------------------------------------
-Ran 1 test in 19.513s
-
-OK
-
-
-
-
+* Remove dependency on Django
+* Print results
+* Take arguments (e.g: domain, output directory, glob for yml files)
+* Maybe we don't need to run this as a test?
