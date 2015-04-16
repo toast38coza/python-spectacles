@@ -1,24 +1,18 @@
-<img src="https://badge.fury.io/py/django-spectacles.png" />
+![pip install django-spectacles](https://badge.fury.io/py/django-spectacles.png)
 
-**Requirements**
+# Django Spectacles
 
-* Django >= 1.6
-
-**Links:**
-
- * [Pivotal Tracker Project](https://www.pivotaltracker.com/s/projects/1027510)
- * [Home Page (Github Page)](http://toast38coza.github.io/django-spectacles/)
-
+Write **end-to-end** tests in **YAML**, run them with **Python** and output your results in **Markdown**
 
 # Installation
 
-**Install via pip:**
+    pip install django-spectacles
 
-    pip install -U django-spectacles
+### Quickstart
 
----
+We will create a Django project for running our intergration tests. 
 
-# Getting Started 
+	python manage.py startproject e2etests .
 
 ### 1. Add to installed apps
 
@@ -32,99 +26,108 @@
     
 You also need to set a value for `TEST_DOMAIN` in `settings.py`. 
 
-	# this is the default used by Django's test server
-	TEST_DOMAIN = 'http://localhost:8081'
+	TEST_DOMAIN = 'http://google.com'
+
+**Note:** use 'http://localhost:8081' to use Django's default test server
+	
 
 
 
-   
-### 2. Write your first functional test: 
+**Create a test that will run all our yaml test specs:**
 
-Create a file called specs.py 
-(As a preference, I like to use a naming pattern along the lines of spec_*.py for the modules containing my spec tests). Let's test the Django admin login page. 
+from the directory containing `manage.py`: 
 
-In the folder 
+	touch e2etests/test_e2e.py
+	
+test_e2e.py:
 
-#### First: write what we expect the page to do in plain text:
+```
+from spectacles.functionaltest import FunctionalTestCase
+from spectacles.yamldriver import YAMLDriver
+from splinter import Browser 
 
-    * Go to /admin/
-	* It has an h1 which says: "Django Administration"
-	* There is a textbox for username
-	* There is a textbox for password     
+class GoogleTestCase(FunctionalTestCase):
 
-Now let's wrap that into a test: 
+    def setUp(self):
+    	
+        self.b = Browser()
+        self.yaml_driver = YAMLDriver(self, self.b)
+
+    def test_google(self):
+    	self.yaml_driver.run_many("./e2etests/yaml/spec_*.yml")
+        pass
+
+    def tearDown(self):
+        self.b.quit()
+```
+
+**Notes**
+
+* TestCase extends `FunctionalTestCase`
+* We pass a glob path to find our spec yml files
+
+You can now run this with: 
+
+	python manage.py test
+	
+
+##View Results as Markdown
+
+Spectacles is designed to create output as Markdown. Your test should create the following output:
+
+```
+##I'm feeling lucky
+
+* Go to url: /
+* ✓ Check that search input exists
+* ✓ Check that [name='btnI'] exists
+* Click button: 
+* waiting for #archive to load
+* ✓ Element has loaded: #archive
+ 
+##Google
+
+* Go to url: /
+* ✓ Check that search input exists
+* enter Tangent Solutions into field:#lst-ib
+* waiting for #ires to load
+* ✓ Element has loaded: #ires
+```
+
+When parsed it would look like this:
+
+###I'm feeling lucky
+
+* Go to url: /
+* ✓ Check that search input exists
+* ✓ Check that [name='btnI'] exists
+* Click button: 
+* waiting for #archive to load
+* ✓ Element has loaded: #archive
+ 
+###Google
+
+* Go to url: /
+* ✓ Check that search input exists
+* enter Tangent Solutions into field:#lst-ib
+* waiting for #ires to load
+* ✓ Element has loaded: #ires
+
+---
+**TODO:**
+
+Some improvements I would like to ship in the near future:
+
+* Remove dependency on Django
+* Print results
+* Take arguments (e.g: domain, output directory, glob for yml files)
+* Maybe we don't need to run this as a test?
 
 
-	from spectacles.functionaltest import FunctionalTestCase
-	from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
-	from splinter import Browser 
+**Note to self: deploying to pypi:**
 
-
-	class HomePageTestCase(FunctionalTestCase):
-
-   		def setUp(self):
-       	    self.b = Browser()
-
-	    def test_admin_page(self):
-	        """
-			* Go to /admin/
-        	* It has an h1 which says: "Django Administration"
-        	* There is a textbox for username
-        	* There is a textbox for password        
-	        """
-	        self.assertTrue(False, "Not yet implemented")
-	        
-		def tearDown(self):
-       	    self.b.quit()
-
-**Notes:**
-
-* We extend `FunctionalTestCase`, not `TestCase`
-* `get_absolute_url` handles getting urls using the value you have set for `TEST_DOMAIN`
-
-#### Finally: write the actual test code:
-
-**Update `test_admin_page()` so it looks like this:**
-
-
-    def test_admin_page(self):
-	    """
-		* Go to /admin/
-        * It has an h1 which says: "Django Administration"
-        * There is a textbox for username
-        * There is a textbox for password        
-	    """
-	 
-
-        self.scenario("Testing django-admin login page")
-        self.step("Go to admin page")
-        self.b.visit(u("/admin/"))
-
-        expect = [
-            ("h1", "Page heading"),            
-            ("#id_username", "Username text box."),            
-            ("#id_password", "Password text box."),            
-        ]
-
-        self.expect(expect)
-
-**What this does:**
-
-* Goes to /admin/
-* Tests for an h1 and fields with the ids: id_username and id_password
-
-**Notes:**
-
-We are using `splinter` to wrap our selenium functionality. To see what you can do with splinter's web-drivers check out the docs at: 
-http://splinter.cobrateam.info/docs/
-
-
-### 3. Run your test
-
-You can now run your spec tests using:
-
-    python manage.py test -p spec*.py
-    
-You should see feedback something like below: 
-
-<img src="http://dropbox.christo.s3.amazonaws.com/spectacles-result.png" />
+1. Update version in setup.py
+2. Upload to pypi:
+		
+		python setup.py sdist upload -r pypi
+		
