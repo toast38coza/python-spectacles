@@ -6,7 +6,7 @@ with open('spectacles/requirements.txt') as f:
 
 setup(
     name='django-spectacles',
-    version='0.0.3',
+    version='0.0.4',
     author=u'Christo Crampton',
     packages=['spectacles'],
     include_package_data=True,

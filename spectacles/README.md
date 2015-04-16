@@ -1,3 +1,5 @@
+![pip install django-spectacles](https://badge.fury.io/py/django-spectacles.png)
+
 # Django Spectacles
 
 Write **end-to-end** tests in **YAML**, run them with **Python** and output your results in **Markdown**
@@ -120,3 +122,12 @@ Some improvements I would like to ship in the near future:
 * Print results
 * Take arguments (e.g: domain, output directory, glob for yml files)
 * Maybe we don't need to run this as a test?
+
+
+**Note to self: deploying to pypi:**
+
+1. Update version in setup.py
+2. Upload to pypi:
+		
+		python setup.py sdist upload -r pypi
+		
