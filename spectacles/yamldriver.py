@@ -97,8 +97,6 @@ class YAMLDriver:
     def pdb(self, nothing):
         import pdb;pdb.set_trace()
 
-
-
     def info(self, message):
         self.testcase.info(message)
 
@@ -157,7 +155,6 @@ class YAMLDriver:
             self.testcase.assertTrue(element_is_available, "Element has loaded: {0}" . format (selector) )
         except:
             pass
-
 
     def wait_for_text(self, str):
         text_is_available = self.b.is_text_present(str, wait_time=DEFAULT_WAIT_TIME)
