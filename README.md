@@ -1,8 +1,9 @@
+# Django Spectacles
+
 ![Django Spectacles](http://phisick.com/core/wp-content/uploads/antique-spectacles-martin-margin-1011.jpg)
 
 ![pip install django-spectacles](https://badge.fury.io/py/django-spectacles.png)
 
-# Django Spectacles
 
 Write **end-to-end** tests in **YAML**, run them with **Python** and output your results in **Markdown**
 
