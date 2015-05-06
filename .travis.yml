@@ -1,8 +1,10 @@
 language: python
 python:
 - '2.7'
-- '3.3'
+- '3.4'
 - pypy
+install: "pip install -r spectacles/requirements.txt"
+script: nosetests spectacles/tests.py
 deploy:
   provider: pypi
   user: toast38coza

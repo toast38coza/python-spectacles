@@ -7,7 +7,6 @@ spectacles/functionaltest.py
 spectacles/models.py
 spectacles/pagehelper.py
 spectacles/requirements.txt
+spectacles/tests.py
 spectacles/views.py
 spectacles/yamldriver.py
-spectacles/tests/__init__.py
-spectacles/tests/onboarding.py

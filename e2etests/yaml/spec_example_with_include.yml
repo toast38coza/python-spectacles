@@ -1,0 +1,5 @@
+---
+- scenario: Test Include
+  steps: 
+  - include: ./e2etests/yaml/spec_search_google.yml
+  - info: Hello

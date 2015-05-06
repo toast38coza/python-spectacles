@@ -1,5 +1,5 @@
 from spectacles.common import DEFAULT_WAIT_TIME, get_absolute_url as u
-import time, glob, yaml
+import time, glob, yaml, random
 
 class YAMLDriver:
 
@@ -34,7 +34,19 @@ class YAMLDriver:
             else: 
                 print "No method defined for {0}" . format (command)
 
-    def goto(self,url):
+    def include(self, path_to_include):
+        '''
+        Include a yaml spec. 
+        Path is relative to directory from which tests are being run
+        - include: ./path/to/file
+
+        todo: would be nice if we could make path relative to yml file
+        '''
+        self.run(path_to_include)
+
+
+
+    def goto(self, url):
         self.testcase.step("Go to url: {0}" . format(url))
         self.b.visit(u(url))
 
@@ -60,6 +72,10 @@ class YAMLDriver:
 
 
     def expect_elements(self, elements):
+        '''
+          - expect_elements :
+            - "#lst-ib": "search input"   
+        '''
 
         for element in elements:
             k,v = element.items()[0]
@@ -93,7 +109,7 @@ class YAMLDriver:
                 self.testcase.assertTrue(False, "Missing form field: {0}" . format(k) )
             except:
                 pass
-        
+
     def pdb(self, nothing):
         import pdb;pdb.set_trace()
 
@@ -118,6 +134,20 @@ class YAMLDriver:
         else:
             self.testcase.todo("Missing button: {0}" . format(selector) )
 
+    def click_first_visible(self, selector):
+
+        all_items = self.b.find_by_css(selector)
+        visible_items = self._get_visible(all_items)
+
+        if len(visible_items) > 0:
+            button = visible_items[0]        
+            self.testcase.step("Click button: {0}" . format (button.text) )
+            button.click()
+        else:
+            message = "No visible buttons matching: {0}" . format(selector)
+            self.testcase.assertTrue(False, message )
+                
+
     def select(self, selector_and_value):
 
         selector, value = selector_and_value.items()[0]
@@ -128,7 +158,24 @@ class YAMLDriver:
             self.testcase.todo("Missing select: {0}" . format(selector) )
 
     def select_random(self, selector):
-        print "select_random: TBD - selects a random option in a select"
+        '''
+        Will select a random value from the first visible 
+        element matching the provided selector
+        '''
+        
+        items = self.b.find_by_css(selector)
+        visible_items = self._get_visible(items)
+
+        if len(visible_items) > 0:
+            select = visible_items[0]
+            options = select.find_by_css("option")
+            random_option = random.choice(options)
+            random_option._element.click()
+            vodacomself.testcase.step("Select: {0}" . format (random_option.text) )
+        else:
+            message = "No visible select dropdowns matching: {0}" . format(selector)
+            self.testcase.assertTrue(False, message )
+
 
     def check(self, selector):  
         
@@ -164,5 +211,8 @@ class YAMLDriver:
         except:
             pass
         
+
+    def _get_visible(self, items):
+        return [item for item in items if item.visible]
 
 

@@ -2,3 +2,6 @@ splinter
 selenium
 requests
 pyyaml
+
+nose
+mock
