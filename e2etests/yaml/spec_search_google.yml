@@ -1,5 +1,5 @@
 ---
-- scenario: Google
+- scenario: Search with Google
   steps: 
   - goto: /
 
