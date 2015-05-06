@@ -182,7 +182,7 @@ class YAMLDriver:
         el_exists = self.expect_element(selector, selector)
 
         if el_exists:        
-            self.b.find_by_css(selector).first.check(value)
+            self.b.find_by_css(selector).first.check()
         else: 
             self.testcase.todo("Missing radio/checkbox: {0}" . format(selector) )
 
