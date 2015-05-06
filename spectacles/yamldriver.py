@@ -171,7 +171,7 @@ class YAMLDriver:
             options = select.find_by_css("option")
             random_option = random.choice(options)
             random_option._element.click()
-            vodacomself.testcase.step("Select: {0}" . format (random_option.text) )
+            self.testcase.step("Select: {0}" . format (random_option.text) )
         else:
             message = "No visible select dropdowns matching: {0}" . format(selector)
             self.testcase.assertTrue(False, message )
