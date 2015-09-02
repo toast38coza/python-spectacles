@@ -10,12 +10,13 @@ class GoogleTestCase(FunctionalTestCase):
         self.b = Browser()
         self.yaml_driver = YAMLDriver(self, self.b)
 
-    @unittest.skip("..")
+
     def test_run_all_yaml_tests(self):
-    	self.yaml_driver.run_many("./e2etests/yaml/spec_*.yml")
+    	self.yaml_driver.run_many("./e2etests/yaml/spec_search*.yml")
     	#self.yaml_driver.run_many("./e2etests/yaml/spec_example_with_include.yml")
-    	pass
-        
+        pass
+
+    @unittest.skip("..")
     def test_sales_tookkit(self):
     	self.yaml_driver.run_many("./e2etests/yaml/stk_*.yml")
     	#self.yaml_driver.run_many("./e2etests/yaml/include_add_vpn_from_dashboard.yml")
