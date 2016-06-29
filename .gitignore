@@ -4,3 +4,7 @@
 local_settings.py
 *.DS_Store
 dist
+env
+docs/_build
+*.sublime-workspace
+*.sublime-project
