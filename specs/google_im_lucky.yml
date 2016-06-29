@@ -2,12 +2,19 @@
 - scenario: I'm feeling lucky
   steps: 
   - goto: /
+  - screenshot: {}
 
   - expect_elements :
     - "#lst-ib": "search input"   
   - fill_fields:
-    - q: "testing"
+    - q: "django-spectacles"
   - wait: 1
   - click: "[name='btnG']"
   - wait: 5
   - wait_for_element : "#rcnt"
+  - screenshot:
+      widths: [375, 768, 990, 1200, 1600]
+  - step: "Click the first link"
+  - click: "h3.r a"
+  - screenshot:
+      image_name: "number-one"

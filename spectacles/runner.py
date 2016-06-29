@@ -6,8 +6,8 @@ from splinter import Browser
 
 @click.option('--screenshot-location', default='./reports/screenshots', help='path where we will save screenshots')
 @click.option('--out-location', default='./reports/specs', help='path to the directory where we will output the spec results')
-@click.option('--spec-location', default='./specs', help='path to the directory containing your yml specs')
-@click.option('--driver', default='phantomjs', help='Select the browser driver you would like to use (phantomjs, chrome, firefox)')
+@click.option('--spec-location', default='./specs/*.yml', help='A glob for finding spec files')
+@click.option('--driver', default='firefox', help='Select the browser driver you would like to use (phantomjs, chrome, firefox)')
 @click.argument('base-url')
 @click.command()
 def run(base_url, driver, spec_location, out_location, screenshot_location):
@@ -21,9 +21,7 @@ def run(base_url, driver, spec_location, out_location, screenshot_location):
 
     yaml_driver = YAMLDriver(base_url, b, options)
 
-    specs = "{}/*.yml" . format (spec_location)    
-
-    yaml_driver.run_many(specs)
+    yaml_driver.run_many(spec_location)
     b.quit()
 
 if __name__ == '__main__':

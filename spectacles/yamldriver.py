@@ -106,15 +106,30 @@ class YAMLDriver:
         """
         Expect text to be on the page
 
-        Example::
+        **Parameters:**
+
+        +------+----------+----------------------------------------+
+        | Name | Required | Description                            |
+        +------+----------+----------------------------------------+
+        | text | yes      | The text we expect to find on the page |
+        +------+----------+----------------------------------------+
+
+        **Examples:**
+
+        .. code-block:: yaml
 
             - expect_text: "The user details you entered are incorrect"   
+        
+        **Example output**
+
+        * Found text: `The user details you entered are incorrect`
+
         """
 
         if self.b.is_text_present(text):
-            self.printer.record_pass("Found text: {}" . format (text))
+            self.printer.record_pass("Found text: '{}'" . format (text))
         else:
-            self.printer.record_fail("Expected text: {}" . format (text))
+            self.printer.record_fail("Expected text: '{}'" . format (text))
 
 
     def expect_elements(self, elements):
