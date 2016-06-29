@@ -8,3 +8,5 @@ env
 docs/_build
 *.sublime-workspace
 *.sublime-project
+reports
+

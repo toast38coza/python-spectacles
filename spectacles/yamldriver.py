@@ -5,16 +5,20 @@ from expectations import Expectation
 class YAMLDriver:
 
     wait_time = 5
+    screenshot_location = './report/screenshots'
 
-    def __init__(self, base_url, browser, wait_time=5):
+    def __init__(self, base_url, browser, options, wait_time=5):
+
+        for key, value in options.items():
+            setattr(self, key, value)
+
 
         self.base_url = base_url
         self.b = browser
 
         self.printer = Printer()        
         self.expectation = Expectation(self.b)
-        
-
+    
     def __add_trailing_slash(self, baseurl):
 
         if baseurl[-1] != "/":
@@ -69,8 +73,6 @@ class YAMLDriver:
         '''
         self.run(path_to_include)
 
-
-
     def goto(self, path):
         """
         Example::
@@ -99,6 +101,20 @@ class YAMLDriver:
                 el = self.b.find_by_css(k).first
                 self.printer.assertEqual(el.value, v)
         """
+
+    def expect_text(self, text):
+        """
+        Expect text to be on the page
+
+        Example::
+
+            - expect_text: "The user details you entered are incorrect"   
+        """
+
+        if self.b.is_text_present(text):
+            self.printer.record_pass("Found text: {}" . format (text))
+        else:
+            self.printer.record_fail("Expected text: {}" . format (text))
 
 
     def expect_elements(self, elements):
@@ -157,8 +173,7 @@ class YAMLDriver:
             - fill_fields:
                 username: joe
                 password: supersecret
-        """
-
+        """        
         for element in elements:
             k,v = element.items()[0]            
             self.fill_field(k,v)
@@ -239,6 +254,94 @@ class YAMLDriver:
         """
         time.sleep(seconds)
 
+    def screenshot(self, options):
+        """
+        Take a screenshot and save it to `--screenshot-location`
+        
+        **Parameters**
+
+        +------------+----------+-------------------------------------------+-----------------------------------------------------+
+        | Name       | Required | Default                                   | Description                                         |
+        +------------+----------+-------------------------------------------+-----------------------------------------------------+
+        | image_name | no       | The title of the current page (slugified) | The name to save this screenshot as                 |
+        +------------+----------+-------------------------------------------+-----------------------------------------------------+
+        | widths     | no       | Current window size                       | A list of image sizes to use for screenshots.       |
+        +------------+----------+-------------------------------------------+-----------------------------------------------------+
+        
+
+        **Examples:**
+
+        .. code-block:: yaml
+
+            # simplest:
+            screenshot: {}
+
+            # specify a custom name: 
+            screenshot:
+              - image_name: cool-screenshot
+
+            # specify a list of sizes:
+            screenshot:
+              - image_name: cool-screenshot
+              - widths: 
+                  - 360
+                  - 640
+                  - 1024
+
+        .. note:: **TODO:** width should be an array
+        """
+        widths = options.get('widths', None)
+        image_name = options.get('image_name', None)
+
+        if image_name is None:
+            image_name = self.b.url.replace("https://","").replace("http://","").replace("/","-")
+        
+        base_name = '{}/{}' . format(self.screenshot_location, image_name)
+
+        if widths is not None:
+            for width in widths:
+                self.b.driver.set_window_size(width, 1000)
+                save_as = '{}-{}.png' . format(base_name, width)
+                self.b.driver.save_screenshot(save_as)
+        else:
+            save_as = '{}.png' . format(base_name)
+            self.b.driver.save_screenshot(save_as)
+ 
+    def resize_window(self,options):
+        """        
+        Resize the current window. Useful for testing responsive layouts
+
+        **Parameters**
+
+        +--------+----------+---------+----------------------+
+        | Name   | Required | Default | Description          |
+        +--------+----------+---------+----------------------+
+        | width  | no       | 1024    | The width in pixels  |
+        +--------+----------+---------+----------------------+
+        | height | no       | 1000    | The height in pixels |
+        +--------+----------+---------+----------------------+
+        
+        **Examples:**
+
+        .. code-block:: yaml
+
+            # no arguments (1024x1000)
+            resize_window: {}
+
+            # specify width and height
+            resize_window:
+              width: 640
+              height: 800
+
+        """
+        width = options.get('width', 1024)
+        height = options.get('width', 1000)
+
+        self.b.driver.resize(width, height)
+
+
+
+
     def click(self, selector):
         button_exists = self.expect_element(selector, selector)
         button = self.b.find_by_css(selector)
@@ -288,7 +391,6 @@ class YAMLDriver:
         else:
             message = "No visible select dropdowns matching: {0}" . format(selector)
             self.expectation.assert_true(False, message )
-
 
     def check(self, selector):  
         

@@ -38,7 +38,6 @@ class Printer:
 
         self.failed_count = self.failed_count+1
         self.print_fail(message)
-        
 
     def scenario(self, message):
         print " "
