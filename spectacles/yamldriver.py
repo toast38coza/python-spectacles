@@ -1,6 +1,7 @@
 import time, glob, yaml, random
 from printer import Printer
 from expectations import Expectation
+from splinter.request_handler.status_code import HttpResponseError
 
 class YAMLDriver:
 
@@ -65,7 +66,13 @@ class YAMLDriver:
     def include(self, path_to_include):
         '''
         Include a yaml spec. 
-        Path is relative to directory from which tests are being run::
+        
+        .. note:: Path is relative to directory from which tests are being run
+
+
+        **Example:**
+
+        .. code-block:: yaml
 
             - include: ./path/to/file
 
@@ -75,20 +82,87 @@ class YAMLDriver:
 
     def goto(self, path):
         """
+        Browse to a url.
+
         Example::
         
+        .. code-block:: yaml
+
+            # go to a single page
             goto: /path/to/page
+
         """
-        self.printer.step("Go to: {0}" . format(path))
-        self.b.visit(self.__url(path))
+
+        try:
+            self.b.visit(self.__url(path))
+            self.printer.record_pass("Successfully visited {}" . format (path))
+        except HttpResponseError, e:
+            self.printer.record_pass("Error loading page: {}. {}:{}" . format (path, e.status_code, e.reason))
+
+    def goto_pages(self, options):
+        """
+        Go to a list of pages. Optionally also take a screenshot
+        
+
+        Example::
+        
+        .. code-block:: yaml
+            # visit a couple of pages
+            goto_pages: 
+              pages:
+                - /page1
+                - /page2
+                - /page3
+
+            # you can also have it take a screenshot on those pages
+            goto_pages: 
+              pages:
+                - /page1
+                - /page2
+                - /page3
+              with_screenshot: yes
+              screenshot_widths: [375, 768, 990, 1200, 1600]
+
+        """
+
+        pages = options.get('pages', [])
+        with_screenshot = options.get('with_screenshot', None)
+        screenshot_widths = options.get('screenshot_widths', None)
+
+        for page in pages:
+            self.goto(page)
+
+            if with_screenshot:
+                screen_options = {
+                    "widths": screenshot_widths
+                }
+                self.screenshot(screen_options)
+
+    ## TODO:
+    def check_links(self, options):
+        """
+        Checks all the links on the current page for 404 / 500s
+
+        **Parameters**
+
+        | Name      | Required | Default | Description                                                                                                           |
+        |-----------|----------|---------|-----------------------------------------------------------------------------------------------------------------------|
+        | container | no       | None    | Specify a bounding container in which we should look for links. Useful for excluding common items like nav and footer |
 
 
-    """
-    YAML: 
+        **Examples:**
 
-    expect_values:
-      - #element to be: "value"
-    """
+        .. code-block:: yaml
+            # basic usage:
+            - check_links: {}
+
+            # optionally: you can specify a bounding container to look in.
+            - check_links:
+                container: #content
+
+        """
+        pass
+
     def expect_values(self, elements):
         
         print "TBD"
