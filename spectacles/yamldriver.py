@@ -1,4 +1,4 @@
-import time, glob, yaml, random
+import time, glob, yaml, random, requests
 from printer import Printer
 from expectations import Expectation
 from splinter.request_handler.status_code import HttpResponseError
@@ -141,7 +141,7 @@ class YAMLDriver:
     ## TODO:
     def check_links(self, options):
         """
-        Checks all the links on the current page for 404 / 500s
+        Checks all the links on the current page. Verifies that they're 200 OK
 
         **Parameters**
 
@@ -161,7 +161,18 @@ class YAMLDriver:
                 container: #content
 
         """
-        pass
+        links = self.b.find_by_tag("a")
+        for link in links:
+            href = link._element.get_attribute('href')
+
+            if href is not None:
+                response = requests.get(href)
+                message = "{}: [{}]({})" . format(response.status_code, link.text, href)
+                if response.status_code == 200:
+                    self.printer.record_pass(message)
+                else:
+                    self.printer.record_fail(message)
+
 
     def expect_values(self, elements):
         

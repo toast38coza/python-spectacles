@@ -20,7 +20,6 @@ def run(base_url, driver, spec_location, out_location, screenshot_location):
     }
 
     yaml_driver = YAMLDriver(base_url, b, options)
-
     yaml_driver.run_many(spec_location)
     b.quit()
 
