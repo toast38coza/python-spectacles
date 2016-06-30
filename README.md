@@ -11,148 +11,95 @@ Write **end-to-end** tests in **YAML**, run them with **Python** and output your
 
     pip install django-spectacles
 
+# Running spectals:
+
+```
+python spectacles/runner.py --help
+Usage: runner.py [OPTIONS] BASE_URL
+
+Options:
+  --driver TEXT               Select the browser driver you would like to use
+                              (phantomjs, chrome, firefox)
+  --spec-location TEXT        A glob for finding spec files
+  --out-location TEXT         path to the directory where we will output the
+                              spec results
+  --screenshot-location TEXT  path where we will save screenshots
+  --help                      Show this message and exit.
+
+```
+
 ### Quickstart
 
-We will create a Django project for running our intergration tests. 
-
-	python manage.py startproject e2etests .
-
-### Setup Spectacles (you only need to do this once)
-
-##### Add to installed apps
-
-**In settings.py:**
-
-    INSTALLED_APPS = (
-        ...
-        spectacles,
-        ...
-    )
-
-##### Add TEST_DOMAIN to settings: 
-
-`TEST_DOMAIN` defines the base_url that spectacles will run the tests against (todo it would be nice to be able to set this as an environment variable or pass it in from the command line)
-
-	TEST_DOMAIN = 'http://google.com'
-
-**Note:** use 'http://localhost:8081' to use Django's default test server
-
-##### Create a test that will run all our yaml test specs:
-
-from the directory containing `manage.py`: 
-
-	touch e2etests/test_e2e.py
-	
-**test_e2e.py:**
+The default project layout is like this:
 
 ```
-from spectacles.functionaltest import FunctionalTestCase
-from spectacles.yamldriver import YAMLDriver
-from splinter import Browser 
-
-class GoogleTestCase(FunctionalTestCase):
-
-    def setUp(self):
-    	
-        self.b = Browser()
-        self.yaml_driver = YAMLDriver(self, self.b)
-
-    def test_google(self):
-    	self.yaml_driver.run_many("./e2etests/yaml/spec_*.yml")
-        pass
-
-    def tearDown(self):
-        self.b.quit()
+ .
+ |_ specs/ # put your yaml specs here
+ |_ reports/
+     |_ screenshots # any screenshots you take will be saved here
+     |_ specs # spec reports will be saved here
 ```
 
-This simple test will find all yaml files in the directory `./e2etests/yaml` that start with `spec_`. This means that any yaml files that we create that match this pattern will be run when we run our e2e tests.
+Let's create a quick spec:
 
-**Notes**
+`./specs/google_im_lucky.yml`
 
-* TestCase extends `FunctionalTestCase`
-* We pass a glob path to find our spec yml files
+```yaml
 
-#### Write tests with YAML
-
-Here is an example test that will perform a search in Google: 
-
-**./e2etests/yaml/spec_search_google.yml**
-
-```
 ---
-- scenario: Search with Google
+- scenario: I'm feeling lucky
   steps: 
   - goto: /
+  - screenshot: {}
 
   - expect_elements :
-    - "#lst-ib": "search input"     
+    - "#lst-ib": "search input"   
   - fill_fields:
-      - "#lst-ib" : "Tangent Solutions"
+    - q: "testing"
+  - wait: 1
+  - click: "[name='btnG']"
   - wait: 5
-  - wait_for_element : "#ires"
+  - wait_for_element : "#rcnt"
+  - screenshot:
+  		widths: [375, 768, 990, 1200, 1600]
 
 ```
 
-(todo: documentation for available yaml commands)
-
-#### Run tests with Python
-
-You can now run this with: 
-
-	python manage.py test
-	
-
-####View Results as Markdown
-
-Spectacles is designed to create output as Markdown. Your test should create the following output:
+**Run your spec:**
 
 ```
+python spectacles/runner.py https://www.google.com
+```
+
+**Results:**
+
+1. You should find a collection of screenshots at: `./reports/screenshots`
+
+**Output:**
+
 ##I'm feeling lucky
 
-* Go to url: /
+* Go to: /
 * ✓ Check that search input exists
-* ✓ Check that [name='btnI'] exists
+* enter django-spectacles into field:q
+* ✓ Check that [name='btnG'] exists
 * Click button: 
-* waiting for #archive to load
-* ✓ Element has loaded: #archive
- 
-##Google
-
-* Go to url: /
-* ✓ Check that search input exists
-* enter Tangent Solutions into field:#lst-ib
-* waiting for #ires to load
-* ✓ Element has loaded: #ires
-```
-
-When parsed it would look like this:
-
-###I'm feeling lucky
-
-* Go to url: /
-* ✓ Check that search input exists
-* ✓ Check that [name='btnI'] exists
-* Click button: 
-* waiting for #archive to load
-* ✓ Element has loaded: #archive
- 
-###Google
-
-* Go to url: /
-* ✓ Check that search input exists
-* enter Tangent Solutions into field:#lst-ib
-* waiting for #ires to load
-* ✓ Element has loaded: #ires
+* waiting for #rcnt to load
+* ✓ Element has loaded: #rcnt
+* Click the first link
+* ✓ Check that h3.r a exists
+* Click button: GitHub - toast38coza/django-spectacles: Write Integration tests in ...
 
 ---
+
 **TODO:**
 
 Some improvements I would like to ship in the near future:
 
-* Remove dependency on Django
-* Print results
-* Take arguments (e.g: domain, output directory, glob for yml files)
-* Maybe we don't need to run this as a test?
+[*] Remove dependency on Django
+[] Print results
+[*] Take arguments (e.g: domain, output directory, glob for yml files)
+[*] Maybe we don't need to run this as a test?
 
 
 **Note to self: deploying to pypi:**

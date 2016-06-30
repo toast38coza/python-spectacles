@@ -1,7 +1,9 @@
 splinter
-selenium
 requests
 pyyaml
+click
 
 nose
 mock
+Sphinx
+sphinx_rtd_theme
