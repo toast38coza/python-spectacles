@@ -104,9 +104,10 @@ class YAMLDriver:
         Go to a list of pages. Optionally also take a screenshot
         
 
-        Example::
+        **Example**
         
         .. code-block:: yaml
+            
             # visit a couple of pages
             goto_pages: 
               pages:
@@ -145,14 +146,16 @@ class YAMLDriver:
 
         **Parameters**
 
+        +-----------+----------+---------+-----------------------------------------------------------------------------------------------------------------------+
         | Name      | Required | Default | Description                                                                                                           |
         |-----------|----------|---------|-----------------------------------------------------------------------------------------------------------------------|
         | container | no       | None    | Specify a bounding container in which we should look for links. Useful for excluding common items like nav and footer |
-
+        +-----------+----------+---------+-----------------------------------------------------------------------------------------------------------------------+
 
         **Examples:**
 
         .. code-block:: yaml
+
             # basic usage:
             - check_links: {}
 

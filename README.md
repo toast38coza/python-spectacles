@@ -92,7 +92,7 @@ mkdir -p reports/specs
 **Run your spec:**
 
 ```
-python spectacles/runner.py https://www.google.com
+spectacles https://www.google.com
 ```
 
 **Results:**
