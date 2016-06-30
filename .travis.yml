@@ -4,6 +4,7 @@ python:
 - '3.4'
 - pypy
 install: "pip install -r spectacles/requirements.txt"
+script: "echo 'OK'"
 deploy:
   provider: pypi
   user: toast38coza
