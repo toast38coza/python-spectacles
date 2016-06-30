@@ -2,7 +2,9 @@
 
 For detailed documentation, [read the docs](http://spectacles.readthedocs.org)
 
+<center>
 ![Django Spectacles](http://phisick.com/core/wp-content/uploads/antique-martin-margin-1011-620x480.jpg)
+</center>
 
 ![pip install python-spectacles](https://badge.fury.io/py/python-spectacles.png)
 [![Build Status](https://travis-ci.org/toast38coza/django-spectacles.svg?branch=master)](https://travis-ci.org/toast38coza/django-spectacles)
