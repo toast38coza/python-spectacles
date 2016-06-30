@@ -528,8 +528,3 @@ class YAMLDriver:
     def _get_visible(self, items):
         return [item for item in items if item.visible]
     
-
-    def screenshot(self, image_name):
-        self.b.driver.save_screenshot(image_name+'.png')
-
-

@@ -1,20 +1,36 @@
-# Django Spectacles
+# Python Spectacles
+
+For detailed documentation, [read the docs](http://spectacles.readthedocs.org)
 
 ![Django Spectacles](http://phisick.com/core/wp-content/uploads/antique-spectacles-martin-margin-1011.jpg)
 
 ![pip install django-spectacles](https://badge.fury.io/py/django-spectacles.png)
 [![Build Status](https://travis-ci.org/toast38coza/django-spectacles.svg?branch=master)](https://travis-ci.org/toast38coza/django-spectacles)
 
+[![Documentation Status](https://readthedocs.org/projects/spectacles/badge/?version=latest)](http://spectacles.readthedocs.io/en/latest/?badge=latest)
+
+
 Write **end-to-end** tests in **YAML**, run them with **Python** and output your results in **Markdown**
 
 # Installation
 
-    pip install django-spectacles
+    pip install python-spectacles
 
-# Running spectals:
+# Running spectacles:
 
 ```
-python spectacles/runner.py --help
+spectacles [OPTIONS] BASE_URL
+```
+
+e.g.: 
+
+```
+spectacles http://google.com
+```
+
+**More details on CLI and options**
+```
+python spectacles --help
 Usage: runner.py [OPTIONS] BASE_URL
 
 Options:
@@ -40,7 +56,15 @@ The default project layout is like this:
      |_ specs # spec reports will be saved here
 ```
 
-Let's create a quick spec:
+You can create that layout with the following commands:
+
+```
+mkdir specs
+mkdir -p reports/screenshots
+mkdir -p reports/specs
+```
+
+**Let's create a quick spec:**
 
 `./specs/google_im_lucky.yml`
 
@@ -96,10 +120,10 @@ python spectacles/runner.py https://www.google.com
 
 Some improvements I would like to ship in the near future:
 
-[*] Remove dependency on Django
-[] Print results
-[*] Take arguments (e.g: domain, output directory, glob for yml files)
-[*] Maybe we don't need to run this as a test?
+* [*] Remove dependency on Django
+* [ ] Print results
+* [*] Take arguments (e.g: domain, output directory, glob for yml files)
+* [*] Maybe we don't need to run this as a test?
 
 
 **Note to self: deploying to pypi:**

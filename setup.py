@@ -6,7 +6,7 @@ with open('spectacles/requirements.txt') as f:
 
 setup(
     name='python-spectacles',
-    version='1.0',
+    version='1.1.0',
     author=u'Christo Crampton',
     packages=['spectacles'],
     include_package_data=True,
@@ -15,7 +15,7 @@ setup(
         [console_scripts]
         spectacles=spectacles.runner:run
     ''',
-    url='https://github.com/toast38coza/django-spectacles',
+    url='https://github.com/toast38coza/python-spectacles',
     license='MIT licence, see LICENCE',
     description='Write e2e tests in yml. Run with Selenium. Report with Markdown',
     long_description=open('README.md').read(),

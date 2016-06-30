@@ -3,10 +3,10 @@ README.md
 setup.py
 spectacles/__init__.py
 spectacles/common.py
-spectacles/functionaltest.py
+spectacles/expectations.py
 spectacles/models.py
 spectacles/pagehelper.py
+spectacles/printer.py
 spectacles/requirements.txt
-spectacles/tests.py
-spectacles/views.py
+spectacles/runner.py
 spectacles/yamldriver.py
