@@ -13,8 +13,8 @@ setup(
     install_requires=required,
     entry_points='''
         [console_scripts]
-        spectacles=spectacles/runner.py:run
-    '''
+        spectacles=spectacles.runner:run
+    ''',
     url='https://github.com/toast38coza/django-spectacles',
     license='MIT licence, see LICENCE',
     description='Write e2e tests in yml. Run with Selenium. Report with Markdown',
