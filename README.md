@@ -122,10 +122,10 @@ spectacles https://www.google.com
 
 Some improvements I would like to ship in the near future:
 
-* [*] Remove dependency on Django
-* [ ] Print results
-* [*] Take arguments (e.g: domain, output directory, glob for yml files)
-* [*] Maybe we don't need to run this as a test?
+- [x] Remove dependency on Django
+- [ ] Print results
+- [x] Take arguments (e.g: domain, output directory, glob for yml files)
+- [x] Maybe we don't need to run this as a test?
 
 
 **Note to self: deploying to pypi:**
