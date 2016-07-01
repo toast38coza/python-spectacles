@@ -58,7 +58,7 @@ class YAMLDriver:
             if method_to_call:                
                 method_to_call(options)
             else: 
-                print "No method defined for {0}" . format (command)
+                print ("No method defined for {0}" . format (command))
 
     ## todo: extract to interactions class
 
@@ -95,7 +95,7 @@ class YAMLDriver:
         try:
             self.b.visit(self.__url(path))
             self.printer.record_pass("Successfully visited {}" . format (path))
-        except HttpResponseError, e:
+        except HttpResponseError as e:
             self.printer.record_pass("Error loading page: {}. {}:{}" . format (path, e.status_code, e.reason))
 
     def goto_pages(self, options):
@@ -178,7 +178,7 @@ class YAMLDriver:
 
     def expect_values(self, elements):
         
-        print "TBD"
+        print ("TBD")
         """
         for element in elements:
             k,v = element.items()[0]   

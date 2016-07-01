@@ -1,4 +1,4 @@
-from printer import Printer
+from .printer import Printer
 
 class Expectation:
 

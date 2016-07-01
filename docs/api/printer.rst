@@ -4,6 +4,6 @@ Outputting Messages
 .. toctree::
    :maxdepth: 1
 
-.. automodule:: spectacles.printer.Printer
+.. autoclass:: spectacles.printer.Printer
    :members:   
 

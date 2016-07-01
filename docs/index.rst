@@ -13,6 +13,7 @@ Contents:
    :glob:
 
    getting-started
+   cli
    api/*
 
 
