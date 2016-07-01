@@ -1,7 +1,7 @@
-splinter
-requests
-pyyaml
-click
+splinter==0.7.3
+requests==2.10.0
+PyYAML==3.11
+click==6.6
 
 nose
 mock
