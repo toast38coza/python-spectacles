@@ -124,6 +124,7 @@ Some improvements I would like to ship in the near future:
 - [ ] Prompts
 - [ ] Variables
 - [ ] Refactor / neaten
+- [ ] Improve test coverage
 - [x] Remove dependency on Django
 - [x] Take arguments (e.g: domain, output directory, glob for yml files)
 - [x] Maybe we don't need to run this as a test?
