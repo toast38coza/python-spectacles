@@ -2,12 +2,9 @@
 
 For detailed documentation, [read the docs](http://spectacles.readthedocs.org)
 
-<center>
 ![Django Spectacles](http://phisick.com/core/wp-content/uploads/antique-martin-margin-1011-620x480.jpg)
-</center>
 
-![pip install python-spectacles](https://badge.fury.io/py/python-spectacles.png)
-[![Build Status](https://travis-ci.org/toast38coza/django-spectacles.svg?branch=master)](https://travis-ci.org/toast38coza/django-spectacles)
+[![Build Status](https://travis-ci.org/toast38coza/python-spectacles.svg?branch=master)](https://travis-ci.org/toast38coza/python-spectacles)
 
 [![Documentation Status](https://readthedocs.org/projects/spectacles/badge/?version=latest)](http://spectacles.readthedocs.io/en/latest/?badge=latest)
 
@@ -122,8 +119,12 @@ spectacles https://www.google.com
 
 Some improvements I would like to ship in the near future:
 
-- [x] Remove dependency on Django
 - [ ] Print results
+- [ ] Generate reports
+- [ ] Prompts
+- [ ] Variables
+- [ ] Refactor / neaten
+- [x] Remove dependency on Django
 - [x] Take arguments (e.g: domain, output directory, glob for yml files)
 - [x] Maybe we don't need to run this as a test?
 
