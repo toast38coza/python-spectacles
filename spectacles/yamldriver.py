@@ -145,12 +145,9 @@ class YAMLDriver:
 
         **Parameters**
 
-        +-----------+----------+---------+-----------------------------------------------------------------------------------------------------------------------+
-        | Name      | Required | Default | Description                                                                                                           |
-        |-----------|----------|---------|-----------------------------------------------------------------------------------------------------------------------|
-        | container | no       | None    | Specify a bounding container in which we should look for links. Useful for excluding common items like nav and footer |
-        +-----------+----------+---------+-----------------------------------------------------------------------------------------------------------------------+
 
+        * container. Optional - specify a bounding container in which to look for links
+        
         **Examples:**
 
         .. code-block:: yaml
@@ -162,6 +159,7 @@ class YAMLDriver:
             - check_links:
                 container: #content
 
+        
         """
         links = self.b.find_by_tag("a")
         for link in links:
