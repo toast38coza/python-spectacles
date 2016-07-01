@@ -1,5 +1,5 @@
 import click
-from yamldriver import YAMLDriver
+from .yamldriver import YAMLDriver
 from splinter import Browser
 
 # environment variables: 

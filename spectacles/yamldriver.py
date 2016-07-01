@@ -1,6 +1,6 @@
 import time, glob, yaml, random, requests
-from printer import Printer
-from expectations import Expectation
+from .printer import Printer
+from .expectations import Expectation
 from splinter.request_handler.status_code import HttpResponseError
 
 class YAMLDriver:
@@ -12,7 +12,6 @@ class YAMLDriver:
 
         for key, value in options.items():
             setattr(self, key, value)
-
 
         self.base_url = base_url
         self.b = browser

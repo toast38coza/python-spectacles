@@ -44,10 +44,10 @@ class Printer:
         print "{0}##{1}{2}\n" . format (bcolors.OKGREEN, message, bcolors.ENDC)
         
     def print_pass(self, message):         
-        print u"{0}* \u2713 {1}{2}" . format (bcolors.OKGREEN, message, bcolors.ENDC)
+        print "{0}* {1}{2}" . format (bcolors.OKGREEN, message, bcolors.ENDC)
 
     def print_fail(self, message): 
-        print u"{0}* \u274C {1}{2}" . format (bcolors.FAIL, message, bcolors.ENDC)
+        print "{0}* {1}{2}" . format (bcolors.FAIL, message, bcolors.ENDC)
         
 
     def print_summary(self):
