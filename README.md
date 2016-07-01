@@ -122,8 +122,12 @@ spectacles https://www.google.com
 
 Some improvements I would like to ship in the near future:
 
-- [x] Remove dependency on Django
 - [ ] Print results
+- [ ] Generate reports
+- [ ] Prompts
+- [ ] Variables
+- [ ] Refactor / neaten
+- [x] Remove dependency on Django
 - [x] Take arguments (e.g: domain, output directory, glob for yml files)
 - [x] Maybe we don't need to run this as a test?
 
