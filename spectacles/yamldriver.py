@@ -10,6 +10,7 @@ class YAMLDriver:
 
     def __init__(self, base_url, browser, options, wait_time=5):
 
+        
         for key, value in options.items():
             setattr(self, key, value)
 

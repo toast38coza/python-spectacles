@@ -11,3 +11,5 @@ docs/_build
 reports
 py3.4
 screenshots
+python_spectacles.egg-info/
+.tox

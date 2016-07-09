@@ -1,0 +1,5 @@
+nose
+mock
+Sphinx
+sphinx_rtd_theme
+discover
