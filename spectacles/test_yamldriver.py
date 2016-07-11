@@ -8,20 +8,20 @@ class MockBrowser:
 class TestInitYAMLDriver(unittest.TestCase):
 
 	def setUp(self):
-		browser = MockBrowser()
+		self.browser = MockBrowser()
 		options = {
-			"foo": "bar"
+			"foo": "bar",
 			"spec_location": "spec_tests/*.yml"
 		}
-		base_url = "http://google.com"
-		yamldriver = YAMLDriver(base_url, browser, options)
+		self.base_url = "http://google.com"
+		self.yamldriver = YAMLDriver(self.base_url, self.browser, options)
 
 	def test_passed_in_values_are_set(self):
-		assert yamldriver.foo == "bar"
-		assert yamldriver.b == browser
-		assert yamldriver.base_url == base_url
+		assert self.yamldriver.foo == "bar"
+		assert self.yamldriver.b == self.browser
+		assert self.yamldriver.base_url == self.base_url
 
-		
+
 
 
 
