@@ -4,6 +4,6 @@ setup.py
 spectacles/__init__.py
 spectacles/expectations.py
 spectacles/printer.py
-spectacles/requirements.txt
 spectacles/runner.py
+spectacles/test_yamldriver.py
 spectacles/yamldriver.py
