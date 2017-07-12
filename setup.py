@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='python-spectacles',
-    version='1.4.0',
+    version='1.4.1',
     author=u'Christo Crampton',
     packages=['spectacles'],
     include_package_data=True,
